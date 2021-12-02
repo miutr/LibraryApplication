@@ -5,11 +5,10 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="611.0" prefWidth="544.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+<AnchorPane prefHeight="611.0" prefWidth="544.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.MainScreenController">
    <children>
-      <Button layoutX="182.0" layoutY="75.0" mnemonicParsing="false" text="Add new member" />
-      <Button layoutX="182.0" layoutY="137.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="139.0" text="Add book" textOverrun="WORD_ELLIPSIS" />
+      <Button layoutX="182.0" layoutY="75.0" mnemonicParsing="false" onAction="#addNewMember" text="Add new member" />
+      <Button layoutX="182.0" layoutY="137.0" mnemonicParsing="false" onAction="#addNewBook" prefHeight="31.0" prefWidth="139.0" text="Add book" textOverrun="WORD_ELLIPSIS" />
       <Button layoutX="182.0" layoutY="208.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="139.0" text="Checkout Book" />
       <Button layoutX="182.0" layoutY="275.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="139.0" text="Add copy of a book" />
    </children>

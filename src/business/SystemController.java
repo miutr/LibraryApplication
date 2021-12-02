@@ -18,7 +18,7 @@ import javafx.scene.control.TextField;
 
 public class SystemController implements ControllerInterface {
 	public static Auth currentAuth = null;
-
+	/*
 	@FXML
 	private TextField firstName; 
 	@FXML
@@ -46,7 +46,7 @@ public class SystemController implements ControllerInterface {
 		al.setContentText("ammmuaaaa");
 		al.show();
 	}
-	
+	*/
 	public void login(String id, String password) throws LoginException {
 		DataAccess da = new DataAccessFacade();
 		HashMap<String, User> map = da.readUserMap();

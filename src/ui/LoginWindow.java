@@ -88,7 +88,7 @@ public class LoginWindow extends Stage implements LibWindow {
         			messageBar.setFill(Start.Colors.green);
              	    messageBar.setText("Login successful");
                 	try {
-                		Parent root = FXMLLoader.load(getClass().getResource("NewMemberScreen.fxml"));
+                		Parent root = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
                 		Scene scene = new Scene(root,400,400);
                 		//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
                 		setScene(scene);
