@@ -5,8 +5,10 @@ import business.LoginException;
 import business.SystemController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -85,6 +87,16 @@ public class LoginWindow extends Stage implements LibWindow {
         			c.login(userTextField.getText().trim(), pwBox.getText().trim());
         			messageBar.setFill(Start.Colors.green);
              	    messageBar.setText("Login successful");
+                	try {
+                		Parent root = FXMLLoader.load(getClass().getResource("NewMemberScreen.fxml"));
+                		Scene scene = new Scene(root,400,400);
+                		//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+                		setScene(scene);
+                		setTitle("Adding New Member Window");
+                		show();
+                		} catch(Exception e1) {
+                		e1.printStackTrace();
+                		}
         		} catch(LoginException ex) {
         			messageBar.setFill(Start.Colors.red);
         			messageBar.setText("Error! " + ex.getMessage());

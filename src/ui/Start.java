@@ -8,7 +8,9 @@ import business.SystemController;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
@@ -89,6 +91,7 @@ public class Start extends Application {
     			}
     			LoginWindow.INSTANCE.clear();
     			LoginWindow.INSTANCE.show();
+            	
             }
         });			
 							
