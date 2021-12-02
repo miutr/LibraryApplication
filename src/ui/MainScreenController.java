@@ -1,4 +1,5 @@
 package ui;
+import java.util.List;
 import java.util.UUID;
 
 import business.Address;
@@ -9,6 +10,7 @@ import dataaccess.DataAccessFacade;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -16,6 +18,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 public class MainScreenController extends Stage{
 
@@ -28,7 +31,10 @@ public class MainScreenController extends Stage{
 	public void addNewMember(ActionEvent event) {
 
 		try {
-			Start.hideAllWindows();
+
+			Node node = (Node) event.getSource();
+			Stage thisStage = (Stage) node.getScene().getWindow();
+			thisStage.hide();
 			Parent root = FXMLLoader.load(getClass().getResource("NewMemberScreen.fxml"));
 			Scene scene = new Scene(root,400,400);
 			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -42,8 +48,11 @@ public class MainScreenController extends Stage{
 
 	public void addNewBook(ActionEvent event) {
 
+
 		try {
-			Start.hideAllWindows();
+			Node node = (Node) event.getSource();
+			Stage thisStage = (Stage) node.getScene().getWindow();
+			thisStage.hide();
 			Parent root = FXMLLoader.load(getClass().getResource("AddNewBookScreen.fxml"));
 			Scene scene = new Scene(root,400,400);
 			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());

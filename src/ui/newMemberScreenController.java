@@ -9,6 +9,7 @@ import dataaccess.DataAccessFacade;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -19,7 +20,7 @@ import javafx.stage.Stage;
 
 //fx:controller="business.SystemController"
 public class newMemberScreenController extends Stage{
-	
+
 	@FXML
 	private TextField firstName; 
 	@FXML
@@ -38,21 +39,22 @@ public class newMemberScreenController extends Stage{
 	private Button backButton;
 	@FXML
 	private Button submitButton;
-	
+
 	public void addNewMember(ActionEvent event) {
 		Address newAddress= new Address(street.getText(),city.getText(),state.getText(),zip.getText());
 		LibraryMember newMember=new LibraryMember( UUID.randomUUID().toString(),firstName.getText(),lastName.getText(), telephone.getText(),newAddress);
 		DataAccess da = new DataAccessFacade();
 		da.saveNewMember(newMember);
-		
-	
+
+
 	}
 	public void backToMain(ActionEvent event) {
-		
+
 		try {
 
-			Stage st=this;
-			st.hide();
+			Node node = (Node) event.getSource();
+			Stage thisStage = (Stage) node.getScene().getWindow();
+			thisStage.hide();
 			Parent root = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
 			Scene scene = new Scene(root,400,400);
 			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
