@@ -1,4 +1,4 @@
-package ui;
+package ui.controller;
 
 import java.util.UUID;
 
@@ -12,13 +12,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
 //fx:controller="business.SystemController"
 public class NewMemberScreenController extends Stage{
-
 	@FXML
 	private TextField firstName; 
 	@FXML
@@ -37,25 +39,29 @@ public class NewMemberScreenController extends Stage{
 	private Button backButton;
 	@FXML
 	private Button submitButton;
-
+	
+	Alert infoAlert = new Alert(AlertType.INFORMATION);
+	
 	public void addNewMember(ActionEvent event) {
 		Address newAddress= new Address(street.getText(),city.getText(),state.getText(),zip.getText());
 		LibraryMember newMember=new LibraryMember( UUID.randomUUID().toString(),firstName.getText(),lastName.getText(), telephone.getText(),newAddress);
 		DataAccess da = new DataAccessFacade();
 		da.saveNewMember(newMember);
-
-
+		infoAlert.setContentText("Member added succesfully!");
+		infoAlert.show();
+		infoAlert.setOnCloseRequest( e -> {
+	          if (infoAlert.getResult() == ButtonType.OK) {
+	        	  backToMain(event);
+	          }});
 	}
+	
 	public void backToMain(ActionEvent event) {
-
 		try {
-
 			Node node = (Node) event.getSource();
 			Stage thisStage = (Stage) node.getScene().getWindow();
-			thisStage.hide();
-			Parent root = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
-			Scene scene = new Scene(root,400,400);
-			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			thisStage.close();
+			Parent root = FXMLLoader.load(getClass().getResource("../MainScreen.fxml"));
+			Scene scene = new Scene(root);
 			setScene(scene);
 			show();
 		} catch(Exception e1) {

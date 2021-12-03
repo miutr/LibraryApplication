@@ -1,4 +1,4 @@
-package ui;
+package ui.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,13 +14,17 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
 public class AddBookScreenController extends Stage {
 	public static String lastAddedISBN;
+	
 	@FXML
 	private TextField bookISBN;
 	@FXML
@@ -31,7 +35,6 @@ public class AddBookScreenController extends Stage {
 	private RadioButton bookTwentyOne;
 	@FXML
 	private TextField bookCopies;
-	
 	@FXML
 	private TextField authorName; 
 	@FXML
@@ -49,7 +52,9 @@ public class AddBookScreenController extends Stage {
 	@FXML
 	private TextArea authorBio;
 	
-	public void addNewBook() {
+	Alert infoAlert = new Alert(AlertType.INFORMATION);
+	
+	public void addNewBook(ActionEvent event) {
 		int checkOutMaxLen = bookSeven.isArmed() ? 7:21;
 		Book newBook= new Book(bookISBN.getText(),bookTitle.getText(),checkOutMaxLen,new ArrayList<>());
 		lastAddedISBN = bookISBN.getText();
@@ -59,32 +64,36 @@ public class AddBookScreenController extends Stage {
 			newBook.addCopy();
 		}
 		da.saveNewBook(newBook);
-		
+		infoAlert.setContentText("Member added succesfully!");
+		infoAlert.show();
+		infoAlert.setOnCloseRequest( e -> {
+		          if (infoAlert.getResult() == ButtonType.OK) {
+		        	  backToMain(event);
+		          }});
 	}
+	
 	public void backToMain(ActionEvent event) {
 		try {
-
 			Node node = (Node) event.getSource();
 			Stage thisStage = (Stage) node.getScene().getWindow();
-			thisStage.hide();
-			Parent root = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
-			Scene scene = new Scene(root,400,400);
-			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			thisStage.close();
+			Parent root = FXMLLoader.load(getClass().getResource("../MainScreen.fxml"));
+			Scene scene = new Scene(root);
 			setScene(scene);
 			show();
 		} catch(Exception e1) {
 			e1.printStackTrace();
 		}
 	}
+	
 	public void saveAndgoToAuthorScreen(ActionEvent event) {
 		try {
-			addNewBook();
+			addNewBook(event);
 			Node node = (Node) event.getSource();
 			Stage thisStage = (Stage) node.getScene().getWindow();
-			thisStage.hide();
-			Parent root = FXMLLoader.load(getClass().getResource("AddAuthorScreen.fxml"));
-			Scene scene = new Scene(root,400,400);
-			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			thisStage.close();
+			Parent root = FXMLLoader.load(getClass().getResource("../AddAuthorScreen.fxml"));
+			Scene scene = new Scene(root);
 			setScene(scene);
 			show();
 		} catch(Exception e1) {
@@ -93,15 +102,13 @@ public class AddBookScreenController extends Stage {
 	}
 	
 	public void saveAndAddAnotherAuthor(ActionEvent event) {
-		
 		try {
 			saveAuthor();
 			Node node = (Node) event.getSource();
 			Stage thisStage = (Stage) node.getScene().getWindow();
 			thisStage.close();
-			Parent root = FXMLLoader.load(getClass().getResource("AddAuthorScreen.fxml"));
-			Scene scene = new Scene(root,400,400);
-			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			Parent root = FXMLLoader.load(getClass().getResource("../AddAuthorScreen.fxml"));
+			Scene scene = new Scene(root);
 			setScene(scene);
 			show();
 		} catch(Exception e1) {
@@ -123,7 +130,6 @@ public class AddBookScreenController extends Stage {
 			String key = entry.getKey();
 			Book val = entry.getValue();
 			
-			
 			if(key.equals(ISBNvalue)) {
 				ArrayList<Author> tmp = new ArrayList<>();
 				for (Author author : val.getAuthors()) {
@@ -132,27 +138,22 @@ public class AddBookScreenController extends Stage {
 				tmp.add(newAuthor);
 				Book b = new Book(val.getIsbn(), val.getTitle(), val.getMaxCheckoutLength(), tmp);
 				bookCopy.put(ISBNvalue,b);
-			}
-			else {
+			} else {
 				bookCopy.put(val.getIsbn(), val);
 			}
-			
 		}
 		da.saveBooks(bookCopy);
-		
 	}
 	
 	
 	public void saveAuthorEvent(ActionEvent event) {
-		
 		try {
 			saveAuthor();
 			Node node = (Node) event.getSource();
 			Stage thisStage = (Stage) node.getScene().getWindow();
 			thisStage.close();
-			Parent root = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
-			Scene scene = new Scene(root,400,400);
-			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			Parent root = FXMLLoader.load(getClass().getResource("../MainScreen.fxml"));
+			Scene scene = new Scene(root);
 			setScene(scene);
 			show();
 		} catch(Exception e1) {

@@ -59,7 +59,7 @@ public class AllBooksWindow extends Stage implements LibWindow {
         hBack.getChildren().add(backBtn);
         grid.add(hBack, 0, 2);
 		Scene scene = new Scene(grid);
-		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("/ui/resource/library.css").toExternalForm());
         setScene(scene);
         isInitialized(true);
 	}

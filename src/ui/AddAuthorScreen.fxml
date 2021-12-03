@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.GridPane?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="582.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.AddBookScreenController">
+<GridPane maxHeight="582.0" maxWidth="600.0" minHeight="582.0" minWidth="600.0" prefHeight="582.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controller.AddBookScreenController">
   <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -26,67 +26,97 @@
   </rowConstraints>
    <children>
       <Label text="New Author Information">
-         <padding>
-            <Insets left="15.0" />
-         </padding>
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
+         <GridPane.margin>
+            <Insets left="30.0" />
+         </GridPane.margin>
       </Label>
       <Label text="First Name" GridPane.rowIndex="1">
          <GridPane.margin>
-            <Insets left="15.0" />
+            <Insets left="30.0" />
          </GridPane.margin>
       </Label>
       <Label text="Last Name" GridPane.rowIndex="2">
          <GridPane.margin>
-            <Insets left="15.0" />
+            <Insets left="30.0" />
          </GridPane.margin>
       </Label>
       <Label text="Phone Number" GridPane.rowIndex="3">
          <GridPane.margin>
-            <Insets left="15.0" />
+            <Insets left="30.0" />
          </GridPane.margin>
       </Label>
       <Label text="Address Street" GridPane.rowIndex="4">
          <GridPane.margin>
-            <Insets left="15.0" />
+            <Insets left="30.0" />
          </GridPane.margin>
       </Label>
       <Label text="City" GridPane.rowIndex="5">
          <GridPane.margin>
-            <Insets left="15.0" />
+            <Insets left="30.0" />
          </GridPane.margin>
       </Label>
       <Label text="State" GridPane.rowIndex="6">
          <GridPane.margin>
-            <Insets left="15.0" />
+            <Insets left="30.0" />
          </GridPane.margin>
       </Label>
       <Label text="ZIP" GridPane.rowIndex="7">
          <GridPane.margin>
-            <Insets left="15.0" />
+            <Insets left="30.0" />
          </GridPane.margin>
       </Label>
       <Label text="Biography" GridPane.rowIndex="8">
          <GridPane.margin>
-            <Insets left="15.0" />
+            <Insets left="30.0" />
          </GridPane.margin>
       </Label>
-      <Button mnemonicParsing="false" onAction="#saveAuthorEvent" text="Save" GridPane.halignment="RIGHT" GridPane.rowIndex="9">
+      <Button mnemonicParsing="false" onAction="#saveAuthorEvent" text="Save" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="9">
          <GridPane.margin>
             <Insets right="30.0" />
          </GridPane.margin>
       </Button>
-      <TextField fx:id="authorName" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-      <TextField fx:id="authorLastName" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-      <TextField fx:id="authorPhone" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-      <TextArea fx:id="authorBio" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-      <TextField fx:id="authorStreet" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-      <TextField fx:id="authorCity" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-      <TextField fx:id="authorState" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-      <TextField fx:id="authorZip" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-      <Button mnemonicParsing="false" onAction="#saveAndAddAnotherAuthor" text="Save and Add Another Author" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-      <Button mnemonicParsing="false" text="Back" GridPane.rowIndex="9" />
+      <TextField fx:id="authorName" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <GridPane.margin>
+            <Insets right="30.0" />
+         </GridPane.margin></TextField>
+      <TextField fx:id="authorLastName" GridPane.columnIndex="1" GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets right="30.0" />
+         </GridPane.margin></TextField>
+      <TextField fx:id="authorPhone" GridPane.columnIndex="1" GridPane.rowIndex="3">
+         <GridPane.margin>
+            <Insets right="30.0" />
+         </GridPane.margin></TextField>
+      <TextArea fx:id="authorBio" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="8">
+         <GridPane.margin>
+            <Insets right="30.0" />
+         </GridPane.margin></TextArea>
+      <TextField fx:id="authorStreet" GridPane.columnIndex="1" GridPane.rowIndex="4">
+         <GridPane.margin>
+            <Insets right="30.0" />
+         </GridPane.margin></TextField>
+      <TextField fx:id="authorCity" GridPane.columnIndex="1" GridPane.rowIndex="5">
+         <GridPane.margin>
+            <Insets right="30.0" />
+         </GridPane.margin></TextField>
+      <TextField fx:id="authorState" GridPane.columnIndex="1" GridPane.rowIndex="6">
+         <GridPane.margin>
+            <Insets right="30.0" />
+         </GridPane.margin></TextField>
+      <TextField fx:id="authorZip" GridPane.columnIndex="1" GridPane.rowIndex="7">
+         <GridPane.margin>
+            <Insets right="30.0" />
+         </GridPane.margin></TextField>
+      <Button alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#saveAndAddAnotherAuthor" text="Save and Add Another Author" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="9">
+         <GridPane.margin>
+            <Insets right="30.0" />
+         </GridPane.margin></Button>
+      <Button mnemonicParsing="false" text="Back" GridPane.rowIndex="9">
+         <GridPane.margin>
+            <Insets left="30.0" />
+         </GridPane.margin></Button>
    </children>
 </GridPane>

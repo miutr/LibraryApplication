@@ -1,4 +1,4 @@
-package ui;
+package ui.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,6 +9,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import ui.Start;
 
 public class MainScreenController extends Stage{
 
@@ -18,15 +19,12 @@ public class MainScreenController extends Stage{
 	Alert al = new Alert(AlertType.INFORMATION);
 
 	public void addNewMember(ActionEvent event) {
-
 		try {
-
 			Node node = (Node) event.getSource();
 			Stage thisStage = (Stage) node.getScene().getWindow();
 			thisStage.hide();
-			Parent root = FXMLLoader.load(getClass().getResource("NewMemberScreen.fxml"));
-			Scene scene = new Scene(root,400,400);
-			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			Parent root = FXMLLoader.load(getClass().getResource("../NewMemberScreen.fxml"));
+			Scene scene = new Scene(root);
 			setScene(scene);
 			setTitle("Adding New Member Window");
 			show();
@@ -36,41 +34,39 @@ public class MainScreenController extends Stage{
 	}
 
 	public void addNewBook(ActionEvent event) {
-
-
 		try {
 			Node node = (Node) event.getSource();
 			Stage thisStage = (Stage) node.getScene().getWindow();
 			thisStage.hide();
-			Parent root = FXMLLoader.load(getClass().getResource("AddNewBookScreen.fxml"));
-			Scene scene = new Scene(root,400,400);
-			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			Parent root = FXMLLoader.load(getClass().getResource("../AddNewBookScreen.fxml"));
+			Scene scene = new Scene(root);
 			setScene(scene);
-			setTitle("Adding New Member Window");
+			setTitle("Adding New Book Window");
 			show();
 		} catch(Exception e1) {
 			e1.printStackTrace();
 		}
 	}
+	
 	public void checkoutBook(ActionEvent event) {
-
-
 		try {
 			Node node = (Node) event.getSource();
 			Stage thisStage = (Stage) node.getScene().getWindow();
 			thisStage.hide();
-			Parent root = FXMLLoader.load(getClass().getResource("CheckoutBook.fxml"));
-			Scene scene = new Scene(root,400,400);
-			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			Parent root = FXMLLoader.load(getClass().getResource("../CheckoutBook.fxml"));
+			Scene scene = new Scene(root);
 			setScene(scene);
-			setTitle("Book Checkouting Window");
+			setTitle("Book Checkout Window");
 			show();
 		} catch(Exception e1) {
 			e1.printStackTrace();
 		}
 	}
-
-
+	
+	public void backToMain() {
+		Start.hideAllWindows();
+		Start.primStage().show();
+	}
 
 }
 

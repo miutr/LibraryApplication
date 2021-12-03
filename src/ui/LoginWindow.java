@@ -88,10 +88,10 @@ public class LoginWindow extends Stage implements LibWindow {
              	    messageBar.setText("Login successful");
                 	try {
                 		Parent root = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
-                		Scene scene = new Scene(root,400,400);
+                		Scene scene = new Scene(root);
                 		//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
                 		setScene(scene);
-                		setTitle("Adding New Member Window");
+                		setTitle("Main Window");
                 		show();
                 		} catch(Exception e1) {
                 		e1.printStackTrace();
@@ -104,7 +104,7 @@ public class LoginWindow extends Stage implements LibWindow {
         	}
         });
 
-        Button backBtn = new Button("<= Back to Main");
+        Button backBtn = new Button("Back to Main");
         backBtn.setOnAction(new EventHandler<ActionEvent>() {
         	@Override
         	public void handle(ActionEvent e) {
@@ -117,7 +117,7 @@ public class LoginWindow extends Stage implements LibWindow {
         hBack.getChildren().add(backBtn);
         grid.add(hBack, 0, 7);
         Scene scene = new Scene(grid);
-        scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/ui/resource/library.css").toExternalForm());
         setScene(scene);
         
     }

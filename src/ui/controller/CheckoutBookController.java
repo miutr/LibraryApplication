@@ -1,4 +1,4 @@
-package ui;
+package ui.controller;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -31,6 +31,7 @@ public class CheckoutBookController extends Stage {
 
 	Alert alertError = new Alert(AlertType.ERROR);
 	Alert alertSuccess = new Alert(AlertType.INFORMATION);
+	
 	public void checkoutBook() {
 		String id = coID.getText();
 		String ISBN = coISBN.getText();
@@ -38,7 +39,7 @@ public class CheckoutBookController extends Stage {
 		HashMap<String, LibraryMember> mems = da.readMemberMap();
 		HashMap<String, Book> books = da.readBooksMap();
 		Book foundedBook = null;
-		LibraryMember foundedMember=null;
+		
 		if(id.isEmpty() || ISBN.isEmpty()) {
 			alertError.setContentText("Fields need to be filled!");
 		}
@@ -50,12 +51,10 @@ public class CheckoutBookController extends Stage {
 				isFound = true;
 				foundedBook = book;
 			}
-
 		}
 		if(!isFound) {
 			alertError.setContentText("ISBN cannot be found!");
 		}
-
 		isFound = false;
 		HashMap<String, LibraryMember>tmpMembers = new HashMap<>();
 		for (Entry<String, LibraryMember> entry : mems.entrySet()) {
@@ -80,9 +79,7 @@ public class CheckoutBookController extends Stage {
 				tmpMembers.put(memID, m);
 
 				isFound = true;
-				foundedMember =member;
-			}
-			else {
+			} else {
 				tmpMembers.put(memID, member);
 			}
 		}
@@ -94,22 +91,20 @@ public class CheckoutBookController extends Stage {
 	}
 
 	public Date calculateDueDate(int dateLong , Date date) {
-
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
 		c.add(Calendar.DAY_OF_MONTH, dateLong);
 		return c.getTime();
 
 	}
+	
 	public void backToMain(ActionEvent event) {
 		try {
-
 			Node node = (Node) event.getSource();
 			Stage thisStage = (Stage) node.getScene().getWindow();
 			thisStage.hide();
-			Parent root = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
-			Scene scene = new Scene(root,400,400);
-			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			Parent root = FXMLLoader.load(getClass().getResource("../MainScreen.fxml"));
+			Scene scene = new Scene(root);
 			setScene(scene);
 			show();
 		} catch(Exception e1) {

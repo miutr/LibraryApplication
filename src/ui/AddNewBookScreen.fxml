@@ -7,11 +7,10 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="582.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.AddBookScreenController">
+<GridPane maxHeight="600.0" maxWidth="540.0" minHeight="600.0" minWidth="540.0" prefHeight="600.0" prefWidth="540.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controller.AddBookScreenController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="246.0" minWidth="10.0" prefWidth="233.0" />
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="301.0" minWidth="10.0" prefWidth="199.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="308.0" minWidth="10.0" prefWidth="163.0" />
   </columnConstraints>
   <rowConstraints>
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -27,43 +26,52 @@
             <Font name="System Bold" size="18.0" />
          </font>
          <GridPane.margin>
-            <Insets left="15.0" />
+            <Insets left="30.0" />
          </GridPane.margin>
       </Label>
       <Label text="ISBN" GridPane.rowIndex="1">
          <GridPane.margin>
-            <Insets left="15.0" />
+            <Insets left="30.0" />
          </GridPane.margin>
       </Label>
       <Label text="Title" GridPane.rowIndex="2">
          <GridPane.margin>
-            <Insets left="15.0" />
+            <Insets left="30.0" />
          </GridPane.margin>
       </Label>
       <Label text="Max Duration" GridPane.rowIndex="3">
          <GridPane.margin>
-            <Insets left="15.0" />
+            <Insets left="30.0" />
          </GridPane.margin>
       </Label>
       <Label text="Number of Copies" GridPane.rowIndex="4">
          <GridPane.margin>
-            <Insets left="15.0" />
+            <Insets left="30.0" />
          </GridPane.margin>
       </Label>
-      <TextField fx:id="bookISBN" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-      <TextField fx:id="bookTitle" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <TextField fx:id="bookISBN" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <GridPane.margin>
+            <Insets right="30.0" />
+         </GridPane.margin></TextField>
+      <TextField fx:id="bookTitle" GridPane.columnIndex="1" GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets right="30.0" />
+         </GridPane.margin></TextField>
       <RadioButton fx:id="bookSeven" mnemonicParsing="false" text="7 Day" GridPane.columnIndex="1" GridPane.rowIndex="3">
          <GridPane.margin>
             <Insets />
          </GridPane.margin>
       </RadioButton>
-      <RadioButton fx:id="bookTwentyOne" mnemonicParsing="false" text="21 Day" GridPane.columnIndex="2" GridPane.rowIndex="3">
+      <RadioButton fx:id="bookTwentyOne" mnemonicParsing="false" text="21 Day" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3">
          <GridPane.margin>
-            <Insets left="15.0" />
+            <Insets right="30.0" />
          </GridPane.margin>
       </RadioButton>
-      <TextField fx:id="bookCopies" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-      <Button mnemonicParsing="false" onAction="#saveAndgoToAuthorScreen" prefHeight="34.0" prefWidth="130.0" text="Save and Add Author(s)" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="5">
+      <TextField fx:id="bookCopies" GridPane.columnIndex="1" GridPane.rowIndex="4">
+         <GridPane.margin>
+            <Insets right="30.0" />
+         </GridPane.margin></TextField>
+      <Button mnemonicParsing="false" onAction="#saveAndgoToAuthorScreen" prefHeight="34.0" prefWidth="130.0" text="Save &amp; Add Author" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="5">
          <GridPane.margin>
             <Insets right="30.0" />
          </GridPane.margin>
@@ -71,7 +79,7 @@
             <Font size="10.0" />
          </font>
       </Button>
-      <Button mnemonicParsing="false" onAction="#backToMain" text="Back to Main Screen" GridPane.rowIndex="5">
+      <Button mnemonicParsing="false" onAction="#backToMain" text="Back to Main" GridPane.rowIndex="5">
          <GridPane.margin>
             <Insets left="30.0" />
          </GridPane.margin>
