@@ -1,8 +1,11 @@
 package business;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class CheckoutEntry {
+public class CheckoutEntry implements Serializable {
+	
+	private static final long serialVersionUID = 3370963134650671133L;
 	private Date checkoutDate;
 	private Date dueDate;
 	

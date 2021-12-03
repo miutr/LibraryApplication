@@ -27,6 +27,8 @@ public class DataAccessFacade implements DataAccess {
 	public void saveNewMember(LibraryMember member) {
 		HashMap<String, LibraryMember> mems = readMemberMap();
 		String memberId = member.getMemberId();
+		if(mems==null)
+			mems=new HashMap<String, LibraryMember>();
 		mems.put(memberId, member);
 		saveToStorage(StorageType.MEMBERS, mems);	
 	}
@@ -39,6 +41,10 @@ public class DataAccessFacade implements DataAccess {
 	public void saveBooks(HashMap<String, Book> books) {
 		saveToStorage(StorageType.BOOKS, books);
 	}
+	public void saveMembers(HashMap<String, LibraryMember> mems) {
+		saveToStorage(StorageType.MEMBERS, mems);
+	}
+	
 	
 	@SuppressWarnings("unchecked")
 	public  HashMap<String,Book> readBooksMap() {

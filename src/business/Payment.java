@@ -1,8 +1,11 @@
 package business;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Payment {
+public class Payment implements Serializable {
+	
+	private static final long serialVersionUID = 3384229372955453486L;
 	private Date date;
 	private Double amount;
 	

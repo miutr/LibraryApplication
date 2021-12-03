@@ -52,6 +52,23 @@ public class MainScreenController extends Stage{
 			e1.printStackTrace();
 		}
 	}
+	public void checkoutBook(ActionEvent event) {
+
+
+		try {
+			Node node = (Node) event.getSource();
+			Stage thisStage = (Stage) node.getScene().getWindow();
+			thisStage.hide();
+			Parent root = FXMLLoader.load(getClass().getResource("CheckoutBook.fxml"));
+			Scene scene = new Scene(root,400,400);
+			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			setScene(scene);
+			setTitle("Book Checkouting Window");
+			show();
+		} catch(Exception e1) {
+			e1.printStackTrace();
+		}
+	}
 
 
 
