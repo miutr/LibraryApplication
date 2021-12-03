@@ -64,12 +64,6 @@ public class AddBookScreenController extends Stage {
 			newBook.addCopy();
 		}
 		da.saveNewBook(newBook);
-		infoAlert.setContentText("Member added succesfully!");
-		infoAlert.show();
-		infoAlert.setOnCloseRequest( e -> {
-		          if (infoAlert.getResult() == ButtonType.OK) {
-		        	  backToMain(event);
-		          }});
 	}
 	
 	public void backToMain(ActionEvent event) {
@@ -149,13 +143,12 @@ public class AddBookScreenController extends Stage {
 	public void saveAuthorEvent(ActionEvent event) {
 		try {
 			saveAuthor();
-			Node node = (Node) event.getSource();
-			Stage thisStage = (Stage) node.getScene().getWindow();
-			thisStage.close();
-			Parent root = FXMLLoader.load(getClass().getResource("../MainScreen.fxml"));
-			Scene scene = new Scene(root);
-			setScene(scene);
-			show();
+			infoAlert.setContentText("Book and authors added succesfully!");
+			infoAlert.show();
+			infoAlert.setOnCloseRequest( e -> {
+			          if (infoAlert.getResult() == ButtonType.OK) {
+			        	  backToMain(event);
+			          }});
 		} catch(Exception e1) {
 			e1.printStackTrace();
 		}
