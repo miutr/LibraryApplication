@@ -8,6 +8,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -85,8 +86,11 @@ public class LoginWindow extends Stage implements LibWindow {
 				try {
 					ControllerInterface c = new SystemController();
 					c.login(userTextField.getText().trim(), pwBox.getText().trim());
-					messageBar.setFill(Start.Colors.green);
+					messageBar.setFill(Start.Colors.green); 
 					messageBar.setText("Login successful");
+					Node node = (Node) e.getSource();
+					Stage thisStage = (Stage) node.getScene().getWindow();
+					thisStage.close();
 					MainScreenController mainScreenController = new MainScreenController();
 					mainScreenController.showMainScreen();
 				} catch(LoginException ex) {

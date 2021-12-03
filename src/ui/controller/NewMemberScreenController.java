@@ -60,10 +60,8 @@ public class NewMemberScreenController extends Stage{
 			Node node = (Node) event.getSource();
 			Stage thisStage = (Stage) node.getScene().getWindow();
 			thisStage.close();
-			Parent root = FXMLLoader.load(getClass().getResource("../MainScreen.fxml"));
-			Scene scene = new Scene(root);
-			setScene(scene);
-			show();
+			MainScreenController msc = new MainScreenController();
+			msc.showMainScreen();
 		} catch(Exception e1) {
 			e1.printStackTrace();
 		}

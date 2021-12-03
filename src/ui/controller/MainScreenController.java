@@ -30,7 +30,9 @@ public class MainScreenController extends Stage{
 
 	public void showMainScreen() {
 		try {
-			Parent root = FXMLLoader.load(getClass().getResource("../MainScreen.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../MainScreen.fxml"));
+			loader.setController(this);
+			Parent root = loader.load();
 			Scene scene = new Scene(root);
 			setScene(scene);
 			setTitle("Main Window");
@@ -96,6 +98,21 @@ public class MainScreenController extends Stage{
 			Scene scene = new Scene(root);
 			setScene(scene);
 			setTitle("Add Book Copy Window");
+			show();
+		} catch(Exception e1) {
+			e1.printStackTrace();
+		}
+	}
+	
+	public void showPrintCheckoutDetailsScreen(ActionEvent event) {
+		try {
+			Node node = (Node) event.getSource();
+			Stage thisStage = (Stage) node.getScene().getWindow();
+			thisStage.close();
+			Parent root = FXMLLoader.load(getClass().getResource("../PrintCheckoutDetails.fxml"));
+			Scene scene = new Scene(root);
+			setScene(scene);
+			setTitle("Print Checkout Details Window");
 			show();
 		} catch(Exception e1) {
 			e1.printStackTrace();
