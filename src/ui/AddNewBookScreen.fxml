@@ -7,75 +7,74 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="582.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.AddBookScreenController">
   <columnConstraints>
-    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="246.0" minWidth="10.0" prefWidth="233.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="301.0" minWidth="10.0" prefWidth="199.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="308.0" minWidth="10.0" prefWidth="163.0" />
   </columnConstraints>
   <rowConstraints>
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="ISBN" textAlignment="RIGHT">
-         <GridPane.margin>
-            <Insets left="50.0" />
-         </GridPane.margin>
+      <Label text="New Book Information">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
-      </Text>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Title" textAlignment="RIGHT" GridPane.rowIndex="1">
          <GridPane.margin>
-            <Insets left="50.0" />
+            <Insets left="15.0" />
+         </GridPane.margin>
+      </Label>
+      <Label text="ISBN" GridPane.rowIndex="1">
+         <GridPane.margin>
+            <Insets left="15.0" />
+         </GridPane.margin>
+      </Label>
+      <Label text="Title" GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets left="15.0" />
+         </GridPane.margin>
+      </Label>
+      <Label text="Max Duration" GridPane.rowIndex="3">
+         <GridPane.margin>
+            <Insets left="15.0" />
+         </GridPane.margin>
+      </Label>
+      <Label text="Number of Copies" GridPane.rowIndex="4">
+         <GridPane.margin>
+            <Insets left="15.0" />
+         </GridPane.margin>
+      </Label>
+      <TextField fx:id="bookISBN" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <TextField fx:id="bookTitle" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <RadioButton fx:id="bookSeven" mnemonicParsing="false" text="7 Day" GridPane.columnIndex="1" GridPane.rowIndex="3">
+         <GridPane.margin>
+            <Insets />
+         </GridPane.margin>
+      </RadioButton>
+      <RadioButton fx:id="bookTwentyOne" mnemonicParsing="false" text="21 Day" GridPane.columnIndex="2" GridPane.rowIndex="3">
+         <GridPane.margin>
+            <Insets left="15.0" />
+         </GridPane.margin>
+      </RadioButton>
+      <TextField fx:id="bookCopies" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+      <Button mnemonicParsing="false" onAction="#saveAndgoToAuthorScreen" prefHeight="34.0" prefWidth="130.0" text="Save and Add Author(s)" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="5">
+         <GridPane.margin>
+            <Insets right="30.0" />
          </GridPane.margin>
          <font>
-            <Font name="System Bold" size="18.0" />
+            <Font size="10.0" />
          </font>
-      </Text>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Max checkout length" textAlignment="RIGHT" GridPane.rowIndex="2">
+      </Button>
+      <Button mnemonicParsing="false" onAction="#backToMain" text="Back to Main Screen" GridPane.rowIndex="5">
          <GridPane.margin>
-            <Insets left="50.0" />
-         </GridPane.margin>
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Text>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Number of copies" textAlignment="RIGHT" GridPane.rowIndex="3">
-         <GridPane.margin>
-            <Insets left="50.0" />
-         </GridPane.margin>
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Text>
-      <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="220.0" text="Add book and set author(s)" GridPane.columnIndex="1" GridPane.rowIndex="4">
-         <GridPane.margin>
-            <Insets left="40.0" />
+            <Insets left="30.0" />
          </GridPane.margin>
       </Button>
-      <TextField GridPane.columnIndex="1">
-         <GridPane.margin>
-            <Insets left="40.0" right="40.0" />
-         </GridPane.margin>
-      </TextField>
-      <TextField GridPane.columnIndex="1" GridPane.rowIndex="1">
-         <GridPane.margin>
-            <Insets left="40.0" right="40.0" />
-         </GridPane.margin>
-      </TextField>
-      <TextField GridPane.columnIndex="1" GridPane.rowIndex="2">
-         <GridPane.margin>
-            <Insets left="40.0" right="40.0" />
-         </GridPane.margin>
-      </TextField>
-      <TextField GridPane.columnIndex="1" GridPane.rowIndex="3">
-         <GridPane.margin>
-            <Insets left="40.0" right="40.0" />
-         </GridPane.margin>
-      </TextField>
    </children>
 </GridPane>

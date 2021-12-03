@@ -12,7 +12,6 @@ import javafx.stage.Stage;
 
 public class MainScreenController extends Stage{
 
-
 	@FXML
 	private Button submitButton;
 
