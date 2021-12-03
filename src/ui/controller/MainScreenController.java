@@ -63,9 +63,15 @@ public class MainScreenController extends Stage{
 		}
 	}
 	
-	public void backToMain() {
-		Start.hideAllWindows();
-		Start.primStage().show();
+	public void backToMain(ActionEvent event) {
+		try {
+			Node node = (Node) event.getSource();
+			Stage thisStage = (Stage) node.getScene().getWindow();
+			thisStage.close();
+			Start.primStage().show();
+		} catch(Exception e1) {
+			e1.printStackTrace();
+		}
 	}
 
 }
