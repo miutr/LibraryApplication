@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.GridPane?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="580.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="ui.controller.AddBookCopyController">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="285.0" minWidth="10.0" prefWidth="244.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="384.0" minWidth="10.0" prefWidth="336.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <Label text="Add Book Copy">
+         <GridPane.margin>
+            <Insets left="30.0" />
+         </GridPane.margin>
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label text="ISBN" GridPane.rowIndex="1">
+         <GridPane.margin>
+            <Insets left="30.0" />
+         </GridPane.margin>
+      </Label>
+      <TextField fx:id="copyISBN" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <GridPane.margin>
+            <Insets right="30.0" />
+         </GridPane.margin>
+      </TextField>
+      <Button mnemonicParsing="false" onAction="#backToMain" text="Back to Main" GridPane.rowIndex="3">
+         <GridPane.margin>
+            <Insets left="30.0" />
+         </GridPane.margin>
+      </Button>
+      <Button mnemonicParsing="false" onAction="#addBookCopy" text="Add Copy" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+         <GridPane.margin>
+            <Insets right="30.0" />
+         </GridPane.margin>
+      </Button>
+      <TextField fx:id="copyNumbers" GridPane.columnIndex="1" GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets right="30.0" />
+         </GridPane.margin>
+      </TextField>
+      <Label text="Number of Copies to add" GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets left="30.0" />
+         </GridPane.margin>
+      </Label>
+   </children>
+</GridPane>

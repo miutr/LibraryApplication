@@ -1,15 +1,13 @@
 package ui.controller;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map.Entry;
 
 import business.Book;
+import business.BookCopy;
 import business.CheckoutEntry;
-import business.CheckoutRecord;
 import business.LibraryMember;
 import dataaccess.DataAccessFacade;
 import javafx.event.ActionEvent;
@@ -56,45 +54,40 @@ public class CheckoutBookController extends Stage {
 		}
 		if(!isFound) {
 			alertError.setContentText("ISBN cannot be found!");
+			alertError.show();
 		}
-		isFound = false;
-		HashMap<String, LibraryMember>tmpMembers = new HashMap<>();
-		for (Entry<String, LibraryMember> entry : mems.entrySet()) {
-			String memID = entry.getKey();
-			LibraryMember member =entry.getValue();
-
-			if(memID.equals(id)) {
-				CheckoutEntry ce = new CheckoutEntry(new Date(),calculateDueDate(foundedBook.getMaxCheckoutLength(),new Date()));
-				LibraryMember m = new LibraryMember(member.getMemberId(), member.getFirstName(),
-						member.getLastName(), member.getTelephone(),member.getAddress());
-				CheckoutRecord cr = new CheckoutRecord();
-				List<CheckoutEntry> coe = new ArrayList<>();
-				if(member.getCheckoutRecord().getCheckoutEntries()!=null) {
-					for (CheckoutEntry ent  : member.getCheckoutRecord().getCheckoutEntries()) {
-						coe.add(ent);
-					}
+		if(checkAvailabilityAndSet(foundedBook) != null) {
+			books.put(foundedBook.getIsbn(), foundedBook);
+			isFound = false;
+			
+			LibraryMember foundedMember = null;
+			for (Entry<String, LibraryMember> entry : mems.entrySet()) {
+				String memID = entry.getKey();
+				LibraryMember member =entry.getValue();
+				if(memID.equals(id)) {
+					foundedMember = member;
+					isFound = true;
+					break;
 				}
-
-				coe.add(ce);
-				cr.setCheckoutEntries(coe);
-				m.setCheckoutRecord(cr);
-				tmpMembers.put(memID, m);
-
-				isFound = true;
-			} else {
-				tmpMembers.put(memID, member);
 			}
+			if(!isFound) {
+				alertError.setContentText("Member ID cannot be found!");
+			}
+			
+			CheckoutEntry ce = new CheckoutEntry(new Date(),calculateDueDate(foundedBook.getMaxCheckoutLength(),new Date()));
+			foundedMember.getCheckoutRecord().getCheckoutEntries().add(ce);
+			mems.put(foundedMember.getMemberId(), foundedMember);
+			
+			da.saveMembers(mems);
+			da.saveBooks(books);
+			alertSuccess.setContentText("Checkout completed successfully!");
+			alertSuccess.show();
+			alertSuccess.setOnCloseRequest( e -> {
+		          if (alertSuccess.getResult() == ButtonType.OK) {
+		        	  backToMain(event);
+		          }});	
 		}
-		if(!isFound) {
-			alertError.setContentText("Member ID cannot be found!");
-		}
-		da.saveMembers(tmpMembers);
-		alertSuccess.setContentText("Checkout completed successfully!");
-		alertSuccess.show();
-		alertSuccess.setOnCloseRequest( e -> {
-	          if (alertSuccess.getResult() == ButtonType.OK) {
-	        	  backToMain(event);
-	          }});
+		
 	}
 
 	public Date calculateDueDate(int dateLong , Date date) {
@@ -103,6 +96,18 @@ public class CheckoutBookController extends Stage {
 		c.add(Calendar.DAY_OF_MONTH, dateLong);
 		return c.getTime();
 
+	}
+	
+	public BookCopy checkAvailabilityAndSet(Book book) {	
+		BookCopy nextAvailable = book.getNextAvailableCopy();
+		
+		if(nextAvailable == null) {
+			alertError.setContentText("Book copy does not available!");
+			alertError.show();
+		} else {
+			nextAvailable.changeAvailability();
+		}
+		return nextAvailable;
 	}
 	
 	public void backToMain(ActionEvent event) {

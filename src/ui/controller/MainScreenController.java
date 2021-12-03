@@ -22,7 +22,7 @@ public class MainScreenController extends Stage{
 		try {
 			Node node = (Node) event.getSource();
 			Stage thisStage = (Stage) node.getScene().getWindow();
-			thisStage.hide();
+			thisStage.close();
 			Parent root = FXMLLoader.load(getClass().getResource("../NewMemberScreen.fxml"));
 			Scene scene = new Scene(root);
 			setScene(scene);
@@ -37,7 +37,7 @@ public class MainScreenController extends Stage{
 		try {
 			Node node = (Node) event.getSource();
 			Stage thisStage = (Stage) node.getScene().getWindow();
-			thisStage.hide();
+			thisStage.close();
 			Parent root = FXMLLoader.load(getClass().getResource("../AddNewBookScreen.fxml"));
 			Scene scene = new Scene(root);
 			setScene(scene);
@@ -48,11 +48,26 @@ public class MainScreenController extends Stage{
 		}
 	}
 	
+	public void showAddBookCopyScreen(ActionEvent event) {
+		try {
+			Node node = (Node) event.getSource();
+			Stage thisStage = (Stage) node.getScene().getWindow();
+			thisStage.close();
+			Parent root = FXMLLoader.load(getClass().getResource("../AddBookCopy.fxml"));
+			Scene scene = new Scene(root);
+			setScene(scene);
+			setTitle("Add Book Copy Window");
+			show();
+		} catch(Exception e1) {
+			e1.printStackTrace();
+		}
+	}
+	
 	public void checkoutBook(ActionEvent event) {
 		try {
 			Node node = (Node) event.getSource();
 			Stage thisStage = (Stage) node.getScene().getWindow();
-			thisStage.hide();
+			thisStage.close();
 			Parent root = FXMLLoader.load(getClass().getResource("../CheckoutBook.fxml"));
 			Scene scene = new Scene(root);
 			setScene(scene);
