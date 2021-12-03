@@ -19,6 +19,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -32,7 +33,7 @@ public class CheckoutBookController extends Stage {
 	Alert alertError = new Alert(AlertType.ERROR);
 	Alert alertSuccess = new Alert(AlertType.INFORMATION);
 	
-	public void checkoutBook() {
+	public void checkoutBook(ActionEvent event) {
 		String id = coID.getText();
 		String ISBN = coISBN.getText();
 		DataAccessFacade da = new DataAccessFacade();
@@ -50,6 +51,7 @@ public class CheckoutBookController extends Stage {
 			if(bookISBN.equals(ISBN)) {
 				isFound = true;
 				foundedBook = book;
+				break;
 			}
 		}
 		if(!isFound) {
@@ -88,6 +90,11 @@ public class CheckoutBookController extends Stage {
 		}
 		da.saveMembers(tmpMembers);
 		alertSuccess.setContentText("Checkout completed successfully!");
+		alertSuccess.show();
+		alertSuccess.setOnCloseRequest( e -> {
+	          if (alertSuccess.getResult() == ButtonType.OK) {
+	        	  backToMain(event);
+	          }});
 	}
 
 	public Date calculateDueDate(int dateLong , Date date) {
