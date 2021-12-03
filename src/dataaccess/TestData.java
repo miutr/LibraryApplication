@@ -2,11 +2,15 @@ package dataaccess;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import business.Address;
 import business.Author;
 import business.Book;
+import business.CheckoutEntry;
+import business.CheckoutRecord;
 import business.LibraryMember;
 
 /**
@@ -51,6 +55,17 @@ public class TestData {
 		LibraryMember libraryMember = new LibraryMember("1001", "Andy", "Rogers", "641-223-2211", addresses.get(4));
 		members.add(libraryMember);
 		libraryMember = new LibraryMember("1002", "Drew", "Stevens", "702-998-2414", addresses.get(5));
+		CheckoutRecord cr = new CheckoutRecord();
+		allBooks.get(3).getCopy(1).changeAvailability();
+		Calendar c1 = Calendar.getInstance();
+		c1.set(2010, Calendar.JANUARY, 10);
+		Calendar c2 = Calendar.getInstance();
+		c2.set(2010, Calendar.JANUARY, 17);
+		CheckoutEntry ce = new CheckoutEntry(allBooks.get(3).getCopy(1), c1.getTime(), c2.getTime());
+		List<CheckoutEntry> entries = new ArrayList<>();
+		entries.add(ce);
+		cr.setCheckoutEntries(entries);
+		libraryMember.setCheckoutRecord(cr);
 		members.add(libraryMember);
 		
 		libraryMember = new LibraryMember("1003", "Sarah", "Eagleton", "451-234-8811", addresses.get(6));

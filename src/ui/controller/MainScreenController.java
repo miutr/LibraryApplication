@@ -118,6 +118,21 @@ public class MainScreenController extends Stage{
 			e1.printStackTrace();
 		}
 	}
+	
+	public void showOverdueBookScreen(ActionEvent event) {
+		try {
+			Node node = (Node) event.getSource();
+			Stage thisStage = (Stage) node.getScene().getWindow();
+			thisStage.close();
+			Parent root = FXMLLoader.load(getClass().getResource("../CheckOverdue.fxml"));
+			Scene scene = new Scene(root);
+			setScene(scene);
+			setTitle("Check Overdue Books Window");
+			show();
+		} catch(Exception e1) {
+			e1.printStackTrace();
+		}
+	}
 
 	public void checkoutBook(ActionEvent event) {
 		try {

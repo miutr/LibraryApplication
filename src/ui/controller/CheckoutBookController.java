@@ -25,6 +25,8 @@ public class CheckoutBookController extends Stage {
 	@FXML
 	private TextField coISBN;
 	@FXML
+	private TextField overdueISBN;
+	@FXML
 	private TextField memberId;
 
 	Alert alertError = new Alert(AlertType.ERROR);
@@ -135,6 +137,34 @@ public class CheckoutBookController extends Stage {
 	          }});	
 	}
 	
+	/**
+	 * This method checks books, which is not available and overdue by their borrowers.
+	 * Iterate all members and their checkout entry records. If input ISBN same with that record ISBN,
+	 * then check for availability. If it is not then compare its due date with today.
+	 * 
+	 * @param event
+	 */
+	public void checkOverdueBooks(ActionEvent event) {
+		String ISBN = overdueISBN.getText();
+		DataAccessFacade daf = new DataAccessFacade();
+		HashMap<String, LibraryMember> members = daf.readMemberMap();
+		System.out.println("Overdue Book Copies and Borrowers:");
+		for (Entry<String, LibraryMember> entry : members.entrySet()) {
+			LibraryMember member =entry.getValue();
+			for(CheckoutEntry checkoutEntry : member.getCheckoutRecord().getCheckoutEntries()) {
+				if(checkoutEntry.getBookCopy().getBook().getIsbn().equals(ISBN) 
+						&& !checkoutEntry.getBookCopy().isAvailable() 
+						&& new Date().compareTo(checkoutEntry.getDueDate()) > 0) {
+					System.out.print(checkoutEntry.getBookCopy().getBook().getIsbn());
+					System.out.print("\t" + checkoutEntry.getBookCopy().getBook().getTitle());
+					System.out.print("\t" + checkoutEntry.getBookCopy().getCopyNum());
+					System.out.println("\t" + checkoutEntry.getDueDate());
+				}
+			}
+		}
+	
+	}
+	
 	public void backToMain(ActionEvent event) {
 		try {
 			Node node = (Node) event.getSource();
@@ -146,9 +176,4 @@ public class CheckoutBookController extends Stage {
 			e1.printStackTrace();
 		}
 	}
-
-
-
-
-
 }
