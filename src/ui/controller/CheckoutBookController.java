@@ -1,22 +1,32 @@
 package ui.controller;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
 
 import business.Book;
 import business.BookCopy;
+import business.CheckoutDetails;
 import business.CheckoutEntry;
 import business.LibraryMember;
 import dataaccess.DataAccessFacade;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 public class CheckoutBookController extends Stage {
@@ -28,10 +38,32 @@ public class CheckoutBookController extends Stage {
 	private TextField overdueISBN;
 	@FXML
 	private TextField memberId;
+	@FXML
+	private TableView<CheckoutDetails> checkoutRecordTable;
+	@FXML 
+	private TableColumn<CheckoutDetails, String> recordISBN;
+	@FXML 
+	private TableColumn<CheckoutDetails, String> recordTitle;
+	@FXML
+	private TableColumn<CheckoutDetails, String> recordDue;
+	@FXML
+	private TableColumn<CheckoutDetails, String> recordCheckout;
+	@FXML
+	private TableView<CheckoutDetails> oTable;
+	@FXML 
+	private TableColumn<CheckoutDetails, String> oTableISBN;
+	@FXML 
+	private TableColumn<CheckoutDetails, String> oTableTitle;
+	@FXML
+	private TableColumn<CheckoutDetails, String> oTableCopy;
+	@FXML
+	private TableColumn<CheckoutDetails, String> oTableMember;
+	@FXML
+	private TableColumn<CheckoutDetails, String> oTableDue;
 
 	Alert alertError = new Alert(AlertType.ERROR);
 	Alert alertSuccess = new Alert(AlertType.INFORMATION);
-	
+
 	public void checkoutBook(ActionEvent event) {
 		String id = coID.getText();
 		String ISBN = coISBN.getText();
@@ -39,7 +71,7 @@ public class CheckoutBookController extends Stage {
 		HashMap<String, LibraryMember> mems = da.readMemberMap();
 		HashMap<String, Book> books = da.readBooksMap();
 		Book foundedBook = null;
-		
+
 		if(id.isEmpty() || ISBN.isEmpty()) {
 			alertError.setContentText("Fields need to be filled!");
 		}
@@ -61,7 +93,7 @@ public class CheckoutBookController extends Stage {
 		if(givenBook != null) {
 			books.put(foundedBook.getIsbn(), foundedBook);
 			isFound = false;
-			
+
 			LibraryMember foundedMember = null;
 			for (Entry<String, LibraryMember> entry : mems.entrySet()) {
 				String memID = entry.getKey();
@@ -75,21 +107,32 @@ public class CheckoutBookController extends Stage {
 			if(!isFound) {
 				alertError.setContentText("Member ID cannot be found!");
 			}
-			
+
 			CheckoutEntry ce = new CheckoutEntry(givenBook, new Date(),calculateDueDate(foundedBook.getMaxCheckoutLength(),new Date()));
 			foundedMember.getCheckoutRecord().getCheckoutEntries().add(ce);
 			mems.put(foundedMember.getMemberId(), foundedMember);
-			
+
 			da.saveMembers(mems);
 			da.saveBooks(books);
-			alertSuccess.setContentText("Checkout completed successfully!");
-			alertSuccess.show();
-			alertSuccess.setOnCloseRequest( e -> {
-		          if (alertSuccess.getResult() == ButtonType.OK) {
-		        	  backToMain(event);
-		          }});	
-		}
-		
+
+			Node node = (Node) event.getSource();
+			Stage thisStage = (Stage) node.getScene().getWindow();
+			thisStage.close();
+			try {
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("../ShowCheckoutRecord.fxml"));
+				loader.setController(this);
+				Parent root = loader.load();
+				Scene scene = new Scene(root);
+				setScene(scene);
+				setTitle("Main Window");
+				showCheckoutRecord(foundedMember.getCheckoutRecord().getCheckoutEntries());
+				show();	
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+
+
+		}	
 	}
 
 	public Date calculateDueDate(int dateLong , Date date) {
@@ -99,10 +142,10 @@ public class CheckoutBookController extends Stage {
 		return c.getTime();
 
 	}
-	
+
 	public BookCopy checkAvailabilityAndSet(Book book) {	
 		BookCopy nextAvailable = book.getNextAvailableCopy();
-		
+
 		if(nextAvailable == null) {
 			alertError.setContentText("Book copy does not available!");
 			alertError.show();
@@ -111,7 +154,7 @@ public class CheckoutBookController extends Stage {
 		}
 		return nextAvailable;
 	}
-	
+
 	public void printCheckoutDetails(ActionEvent event) {
 		String memId = memberId.getText();
 		DataAccessFacade daf = new DataAccessFacade();
@@ -132,11 +175,26 @@ public class CheckoutBookController extends Stage {
 		alertSuccess.setContentText("Member checkout details printed successfully!");
 		alertSuccess.show();
 		alertSuccess.setOnCloseRequest( e -> {
-	          if (alertSuccess.getResult() == ButtonType.OK) {
-	        	  backToMain(event);
-	          }});	
+			if (alertSuccess.getResult() == ButtonType.OK) {
+				backToMain(event);
+			}});	
 	}
-	
+
+	public void showCheckoutRecord(List<CheckoutEntry> entries) {
+		recordISBN.setCellValueFactory(new PropertyValueFactory<CheckoutDetails, String>("isbn"));
+		recordTitle.setCellValueFactory(new PropertyValueFactory<CheckoutDetails, String>("title"));
+		recordCheckout.setCellValueFactory(new PropertyValueFactory<CheckoutDetails, String>("checkoutDate"));
+		recordDue.setCellValueFactory(new PropertyValueFactory<CheckoutDetails, String>("dueDate"));
+		List<CheckoutDetails> list = new ArrayList<>();
+		for(CheckoutEntry entry : entries) {
+			Book book = entry.getBookCopy().getBook();
+			CheckoutDetails details = new CheckoutDetails(book.getIsbn(), book.getTitle(),
+					entry.getCheckoutDate(), entry.getDueDate());
+			list.add(details);
+		}
+		checkoutRecordTable.getItems().setAll(list);
+	}
+
 	/**
 	 * This method checks books, which is not available and overdue by their borrowers.
 	 * Iterate all members and their checkout entry records. If input ISBN same with that record ISBN,
@@ -145,26 +203,34 @@ public class CheckoutBookController extends Stage {
 	 * @param event
 	 */
 	public void checkOverdueBooks(ActionEvent event) {
+		oTableISBN.setCellValueFactory(new PropertyValueFactory<CheckoutDetails, String>("isbn"));
+		oTableTitle.setCellValueFactory(new PropertyValueFactory<CheckoutDetails, String>("title"));
+		oTableCopy.setCellValueFactory(new PropertyValueFactory<CheckoutDetails, String>("copyNum"));
+		oTableMember.setCellValueFactory(new PropertyValueFactory<CheckoutDetails, String>("member"));
+		oTableDue.setCellValueFactory(new PropertyValueFactory<CheckoutDetails, String>("dueDate"));
+		
 		String ISBN = overdueISBN.getText();
 		DataAccessFacade daf = new DataAccessFacade();
 		HashMap<String, LibraryMember> members = daf.readMemberMap();
-		System.out.println("Overdue Book Copies and Borrowers:");
+		List<CheckoutDetails> list = new ArrayList<>();
 		for (Entry<String, LibraryMember> entry : members.entrySet()) {
 			LibraryMember member =entry.getValue();
 			for(CheckoutEntry checkoutEntry : member.getCheckoutRecord().getCheckoutEntries()) {
 				if(checkoutEntry.getBookCopy().getBook().getIsbn().equals(ISBN) 
 						&& !checkoutEntry.getBookCopy().isAvailable() 
 						&& new Date().compareTo(checkoutEntry.getDueDate()) > 0) {
-					System.out.print(checkoutEntry.getBookCopy().getBook().getIsbn());
-					System.out.print("\t" + checkoutEntry.getBookCopy().getBook().getTitle());
-					System.out.print("\t" + checkoutEntry.getBookCopy().getCopyNum());
-					System.out.println("\t" + checkoutEntry.getDueDate());
+					Book book = checkoutEntry.getBookCopy().getBook();
+					BookCopy bookCopy = checkoutEntry.getBookCopy();
+					String memberFullname = member.getFirstName() + " " + member.getLastName();
+					list.add(new CheckoutDetails(book.getIsbn(), book.getTitle(),
+							bookCopy.getCopyNum(), memberFullname, checkoutEntry.getDueDate()));
 				}
+				oTable.getItems().setAll(list);
 			}
 		}
-	
+
 	}
-	
+
 	public void backToMain(ActionEvent event) {
 		try {
 			Node node = (Node) event.getSource();

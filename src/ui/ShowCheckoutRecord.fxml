@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="600.0" prefWidth="580.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TableView fx:id="checkoutRecordTable" layoutY="47.0" prefHeight="517.0" prefWidth="580.0">
+        <columns>
+          <TableColumn fx:id="recordISBN" prefWidth="123.0" text="Book ISBN" />
+          <TableColumn fx:id="recordTitle" minWidth="0.0" prefWidth="222.0" text="Book Title" />
+            <TableColumn fx:id="recordCheckout" prefWidth="122.0" text="Checkout Date" />
+            <TableColumn fx:id="recordDue" prefWidth="110.0" text="Due Date" />
+        </columns>
+      </TableView>
+      <Label layoutX="193.0" layoutY="14.0" text="Member's Checkout Record" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Button layoutX="25.0" layoutY="564.0" mnemonicParsing="false" onAction="#backToMain" text="Back to Main" />
+   </children>
+</AnchorPane>
