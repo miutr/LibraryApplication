@@ -54,16 +54,28 @@ public class AddBookScreenController extends Stage {
 	
 	Alert infoAlert = new Alert(AlertType.INFORMATION);
 	
-	public void addNewBook(ActionEvent event) {
+	public boolean addNewBook(ActionEvent event) {
+		if(bookISBN.getText().equals("") || bookTitle.getText().equals("")) {
+			infoAlert.setContentText("Please fill all fields!");
+			infoAlert.show();
+			return false;
+		}
 		int checkOutMaxLen = bookSeven.isSelected() ? 7:21;
-		Book newBook= new Book(bookISBN.getText(),bookTitle.getText(),checkOutMaxLen,new ArrayList<>());
+		Book newBook= new Book(bookISBN.getText(), bookTitle.getText(), checkOutMaxLen, new ArrayList<>());
 		lastAddedISBN = bookISBN.getText();
 		DataAccessFacade da = new DataAccessFacade();
-		int numOfCopies = Integer.parseInt(bookCopies.getText());
-		for (int i = 0; i < numOfCopies; i++) {
-			newBook.addCopy();
+		try {
+			int numOfCopies = Integer.parseInt(bookCopies.getText());
+			for (int i = 0; i < numOfCopies; i++) {
+				newBook.addCopy();
+			}
+			da.saveNewBook(newBook);
+			return true;
+		} catch (NumberFormatException e) {
+			infoAlert.setContentText("Please enter proper copy number!");
+			infoAlert.show();
+			return false;
 		}
-		da.saveNewBook(newBook);
 	}
 	
 	public void backToMain(ActionEvent event) {
@@ -80,14 +92,15 @@ public class AddBookScreenController extends Stage {
 	
 	public void saveAndgoToAuthorScreen(ActionEvent event) {
 		try {
-			addNewBook(event);
-			Node node = (Node) event.getSource();
-			Stage thisStage = (Stage) node.getScene().getWindow();
-			thisStage.close();
-			Parent root = FXMLLoader.load(getClass().getResource("../AddAuthorScreen.fxml"));
-			Scene scene = new Scene(root);
-			setScene(scene);
-			show();
+			if(addNewBook(event)) {
+				Node node = (Node) event.getSource();
+				Stage thisStage = (Stage) node.getScene().getWindow();
+				thisStage.close();
+				Parent root = FXMLLoader.load(getClass().getResource("../AddAuthorScreen.fxml"));
+				Scene scene = new Scene(root);
+				setScene(scene);
+				show();
+			}
 		} catch(Exception e1) {
 			e1.printStackTrace();
 		}
@@ -95,21 +108,29 @@ public class AddBookScreenController extends Stage {
 	
 	public void saveAndAddAnotherAuthor(ActionEvent event) {
 		try {
-			saveAuthor();
-			Node node = (Node) event.getSource();
-			Stage thisStage = (Stage) node.getScene().getWindow();
-			thisStage.close();
-			Parent root = FXMLLoader.load(getClass().getResource("../AddAuthorScreen.fxml"));
-			Scene scene = new Scene(root);
-			setScene(scene);
-			show();
+			if(saveAuthor()) {
+				Node node = (Node) event.getSource();
+				Stage thisStage = (Stage) node.getScene().getWindow();
+				thisStage.close();
+				Parent root = FXMLLoader.load(getClass().getResource("../AddAuthorScreen.fxml"));
+				Scene scene = new Scene(root);
+				setScene(scene);
+				show();
+			}
 		} catch(Exception e1) {
 			e1.printStackTrace();
 		}
 	}
 	
 	
-	public void saveAuthor() {
+	public boolean saveAuthor() {
+		if(authorName.getText().equals("") || authorLastName.getText().equals("") || 
+				authorPhone.getText().equals("") || authorStreet.getText().equals("") || 
+				authorCity.getText().equals("") || authorState.getText().equals("") || authorZip.getText().equals("")) {
+			infoAlert.setContentText("Please fill all fields!");
+			infoAlert.show();
+			return false;
+		} 
 		Address newAddress = new Address(authorStreet.getText(), authorCity.getText(), authorState.getText(), authorZip.getText());
 		Author newAuthor = new Author(authorName.getText(), authorLastName.getText(),authorPhone.getText(),newAddress,authorBio.getText());
 		DataAccessFacade da = new DataAccessFacade();
@@ -135,18 +156,20 @@ public class AddBookScreenController extends Stage {
 			}
 		}
 		da.saveBooks(bookCopy);
+		return true;
 	}
 	
 	
 	public void saveAuthorEvent(ActionEvent event) {
 		try {
-			saveAuthor();
-			infoAlert.setContentText("Book and authors added succesfully!");
-			infoAlert.show();
-			infoAlert.setOnCloseRequest( e -> {
-			          if (infoAlert.getResult() == ButtonType.OK) {
-			        	  backToMain(event);
-			          }});
+			if(saveAuthor()) {
+				infoAlert.setContentText("Book and authors added succesfully!");
+				infoAlert.show();
+				infoAlert.setOnCloseRequest( e -> {
+				          if (infoAlert.getResult() == ButtonType.OK) {
+				        	  backToMain(event);
+				          }});
+			}
 		} catch(Exception e1) {
 			e1.printStackTrace();
 		}

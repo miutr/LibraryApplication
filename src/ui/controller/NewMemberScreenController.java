@@ -39,7 +39,14 @@ public class NewMemberScreenController extends Stage{
 	
 	Alert infoAlert = new Alert(AlertType.INFORMATION);
 	
-	public void addNewMember(ActionEvent event) {
+	public boolean addNewMember(ActionEvent event) {
+		if(firstName.getText().equals("") || lastName.getText().equals("") || 
+				telephone.getText().equals("") || street.getText().equals("") || 
+				city.getText().equals("") || state.getText().equals("") || zip.getText().equals("")) {
+			infoAlert.setContentText("Please fill all fields!");
+			infoAlert.show();
+			return false;
+		} 
 		Address newAddress= new Address(street.getText(),city.getText(),state.getText(),zip.getText());
 		LibraryMember newMember=new LibraryMember( UUID.randomUUID().toString(),firstName.getText(),lastName.getText(), telephone.getText(),newAddress);
 		DataAccess da = new DataAccessFacade();
@@ -50,6 +57,7 @@ public class NewMemberScreenController extends Stage{
 	          if (infoAlert.getResult() == ButtonType.OK) {
 	        	  backToMain(event);
 	          }});
+		return true;
 	}
 	
 	public void backToMain(ActionEvent event) {
