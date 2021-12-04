@@ -55,7 +55,7 @@ public class AddBookScreenController extends Stage {
 	Alert infoAlert = new Alert(AlertType.INFORMATION);
 	
 	public void addNewBook(ActionEvent event) {
-		int checkOutMaxLen = bookSeven.isArmed() ? 7:21;
+		int checkOutMaxLen = bookSeven.isSelected() ? 7:21;
 		Book newBook= new Book(bookISBN.getText(),bookTitle.getText(),checkOutMaxLen,new ArrayList<>());
 		lastAddedISBN = bookISBN.getText();
 		DataAccessFacade da = new DataAccessFacade();

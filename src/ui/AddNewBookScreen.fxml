@@ -61,8 +61,11 @@
          <GridPane.margin>
             <Insets />
          </GridPane.margin>
+         <toggleGroup>
+            <ToggleGroup fx:id="toggleGroup" />
+         </toggleGroup>
       </RadioButton>
-      <RadioButton fx:id="bookTwentyOne" mnemonicParsing="false" text="21 Day" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+      <RadioButton fx:id="bookTwentyOne" mnemonicParsing="false" text="21 Day" toggleGroup="$toggleGroup" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3">
          <GridPane.margin>
             <Insets right="30.0" />
          </GridPane.margin>
