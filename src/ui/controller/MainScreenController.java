@@ -25,6 +25,10 @@ public class MainScreenController extends Stage{
 	private Button checkoutButton;
 	@FXML
 	private Button addBookCopyButton;
+	@FXML
+	private Button printCheckoutButton;
+	@FXML
+	private Button checkOverdueButton;
 
 	Alert al = new Alert(AlertType.INFORMATION);
 
@@ -45,6 +49,8 @@ public class MainScreenController extends Stage{
 		switch (auth) {
 		case ADMIN:
 			checkoutButton.setDisable(true);
+			printCheckoutButton.setDisable(true);
+			checkOverdueButton.setDisable(true);
 			break;
 		case LIBRARIAN:
 			addBookCopyButton.setDisable(true);
