@@ -48,7 +48,7 @@ public class NewMemberScreenController extends Stage{
 			return false;
 		} 
 		DataAccessFacade daf = new DataAccessFacade();
-		int memberNum = daf.readMemberMap().size() + 1000;
+		int memberNum = daf.readMemberMap().size() + 1001;
 		Address newAddress= new Address(street.getText(),city.getText(),state.getText(),zip.getText());
 		LibraryMember newMember=new LibraryMember(String.valueOf(memberNum) ,firstName.getText(),lastName.getText(), telephone.getText(),newAddress);
 		DataAccess da = new DataAccessFacade();
