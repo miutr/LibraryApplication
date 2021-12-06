@@ -38,7 +38,8 @@ public class SystemController implements ControllerInterface {
 	public List<String> allBookIds() {
 		DataAccess da = new DataAccessFacade();
 		List<String> retval = new ArrayList<>();
-		retval.addAll(da.readBooksMap().keySet());
+		HashMap<String, Book> books = da.readBooksMap();
+		retval.addAll(books.keySet());
 		return retval;
 	}
 	

@@ -37,6 +37,8 @@ public class DataAccessFacade implements DataAccess {
 		String ISBN = book.getIsbn();
 		books.put(ISBN, book);
 		saveToStorage(StorageType.BOOKS, books);
+		books = readBooksMap();
+		books = readBooksMap();
 	}
 	public void saveBooks(HashMap<String, Book> books) {
 		saveToStorage(StorageType.BOOKS, books);
@@ -97,6 +99,7 @@ public class DataAccessFacade implements DataAccess {
 			Path path = FileSystems.getDefault().getPath(OUTPUT_DIR, type.toString());
 			out = new ObjectOutputStream(Files.newOutputStream(path));
 			out.writeObject(ob);
+			out.flush();
 		} catch(IOException e) {
 			e.printStackTrace();
 		} finally {

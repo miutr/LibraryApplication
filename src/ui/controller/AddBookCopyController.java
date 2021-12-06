@@ -27,42 +27,43 @@ public class AddBookCopyController extends Stage{
 	public void addBookCopy(ActionEvent event) {
 		String ISBN = copyISBN.getText();
 		Integer bookCopies = Integer.parseInt(copyNumbers.getText());
-		
-		DataAccessFacade da = new DataAccessFacade();
-		
-		HashMap<String, Book> books = da.readBooksMap();
-		Book foundedBook = null;
-		
-		if(ISBN.isEmpty()) {
-			alertError.setContentText("ISBN needs to be filled!");
+				
+		if(addCopiesToBookAndSave(ISBN, bookCopies)) {
+			alertSuccess.setContentText("Book copies added succesfully!");
+			alertSuccess.show();
+			alertSuccess.setOnCloseRequest( e -> {
+			          if (alertSuccess.getResult() == ButtonType.OK) {
+			        	  backToMain(event);
+			          }});
 		} else {
-			boolean isFound = false;
-			for (Entry<String, Book> entry : books.entrySet()) {
-				String bookISBN = entry.getKey();
-				Book book = entry.getValue();
-				if(bookISBN.equals(ISBN)) {
-					isFound = true;
-					foundedBook = book;
-					break;
-				}
+			alertError.setContentText("ISBN cannot be found!");
+			alertError.show();
+		}	
+	}
+	
+	public boolean addCopiesToBookAndSave(String ISBN, int copies) {
+		DataAccessFacade da = new DataAccessFacade();
+		HashMap<String, Book> books = da.readBooksMap();
+		boolean isFound = false;
+		Book foundedBook = null;
+		for (Entry<String, Book> entry : books.entrySet()) {
+			String bookISBN = entry.getKey();
+			Book book = entry.getValue();
+			if(bookISBN.equals(ISBN)) {
+				isFound = true;
+				foundedBook = book;
+				break;
 			}
-			
-			if(!isFound) {
-				alertError.setContentText("ISBN cannot be found!");
-				alertError.show();
-			} else {
-				for (int i = 0; i < bookCopies; i++) {
-					foundedBook.addCopy();
-				}
-				books.put(foundedBook.getIsbn(), foundedBook);
-				da.saveBooks(books);
-				alertSuccess.setContentText("Book copies added succesfully!");
-				alertSuccess.show();
-				alertSuccess.setOnCloseRequest( e -> {
-				          if (alertSuccess.getResult() == ButtonType.OK) {
-				        	  backToMain(event);
-				          }});
+		} 
+		if(!isFound) {
+			return false;
+		} else {
+			for (int i = 0; i < copies; i++) {
+				foundedBook.addCopy();
 			}
+			books.put(foundedBook.getIsbn(), foundedBook);
+			da.saveBooks(books);
+			return true;
 		}
 	}
 	

@@ -112,6 +112,7 @@ public class LoginWindow extends Stage implements LibWindow {
 		hBack.getChildren().add(backBtn);
 		grid.add(hBack, 0, 7);
 		Scene scene = new Scene(grid);
+		setTitle("Login");
 		scene.getStylesheets().add(getClass().getResource("/ui/resource/library.css").toExternalForm());
 		setScene(scene);
 

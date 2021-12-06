@@ -60,16 +60,17 @@ public class AddBookScreenController extends Stage {
 			infoAlert.show();
 			return false;
 		}
+		DataAccessFacade da = new DataAccessFacade();
+		HashMap<String, Book> books = da.readBooksMap();
 		int checkOutMaxLen = bookSeven.isSelected() ? 7:21;
 		Book newBook= new Book(bookISBN.getText(), bookTitle.getText(), checkOutMaxLen, new ArrayList<>());
+		books.put(newBook.getIsbn(), newBook);
+		da.saveBooks(books);
 		lastAddedISBN = bookISBN.getText();
-		DataAccessFacade da = new DataAccessFacade();
 		try {
+			AddBookCopyController copyController = new AddBookCopyController();
 			int numOfCopies = Integer.parseInt(bookCopies.getText());
-			for (int i = 0; i < numOfCopies; i++) {
-				newBook.addCopy();
-			}
-			da.saveNewBook(newBook);
+			copyController.addCopiesToBookAndSave(newBook.getIsbn(), numOfCopies-1);
 			return true;
 		} catch (NumberFormatException e) {
 			infoAlert.setContentText("Please enter proper copy number!");
@@ -99,6 +100,7 @@ public class AddBookScreenController extends Stage {
 				Parent root = FXMLLoader.load(getClass().getResource("../AddAuthorScreen.fxml"));
 				Scene scene = new Scene(root);
 				setScene(scene);
+				setTitle("Add Author");
 				show();
 			}
 		} catch(Exception e1) {
@@ -115,6 +117,7 @@ public class AddBookScreenController extends Stage {
 				Parent root = FXMLLoader.load(getClass().getResource("../AddAuthorScreen.fxml"));
 				Scene scene = new Scene(root);
 				setScene(scene);
+				setTitle("Add Author");
 				show();
 			}
 		} catch(Exception e1) {
@@ -137,25 +140,19 @@ public class AddBookScreenController extends Stage {
 		String ISBNvalue = lastAddedISBN;
 		
 		HashMap<String, Book> books = da.readBooksMap();
-		HashMap<String, Book> bookCopy = new HashMap<>();
 		
+		Book founded = null;
 		for (Map.Entry<String, Book> entry : books.entrySet()) {
 			String key = entry.getKey();
 			Book val = entry.getValue();
 			
 			if(key.equals(ISBNvalue)) {
-				ArrayList<Author> tmp = new ArrayList<>();
-				for (Author author : val.getAuthors()) {
-					tmp.add(author);
-				}
-				tmp.add(newAuthor);
-				Book b = new Book(val.getIsbn(), val.getTitle(), val.getMaxCheckoutLength(), tmp);
-				bookCopy.put(ISBNvalue,b);
-			} else {
-				bookCopy.put(val.getIsbn(), val);
+				founded = val;
 			}
 		}
-		da.saveBooks(bookCopy);
+		founded.getAuthors().add(newAuthor);
+		books.put(founded.getIsbn(), founded);
+		da.saveBooks(books);
 		return true;
 	}
 	

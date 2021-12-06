@@ -62,5 +62,6 @@ public class AllMembersWindow extends Stage implements LibWindow {
 		Scene scene = new Scene(grid);
 		scene.getStylesheets().add(getClass().getResource("/ui/resource/library.css").toExternalForm());
         setScene(scene);
+        setTitle("All Members List");
 	}
 }

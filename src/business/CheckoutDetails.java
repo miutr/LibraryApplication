@@ -11,9 +11,10 @@ public class CheckoutDetails {
 	private String member;
 	private Date dueDate;
 	
-	public CheckoutDetails(String isbn, String title, Date checkoutDate, Date dueDate) {
+	public CheckoutDetails(String isbn, String title, int copyNum, Date checkoutDate, Date dueDate) {
 		this.isbn = isbn;
 		this.title = title;
+		this.copyNum = copyNum;
 		this.checkoutDate = checkoutDate;
 		this.dueDate = dueDate;
 	}

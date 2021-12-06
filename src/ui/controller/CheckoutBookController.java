@@ -2,11 +2,14 @@ package ui.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Stream;
 
 import business.Book;
 import business.BookCopy;
@@ -44,6 +47,8 @@ public class CheckoutBookController extends Stage {
 	private TableColumn<CheckoutDetails, String> recordISBN;
 	@FXML 
 	private TableColumn<CheckoutDetails, String> recordTitle;
+	@FXML
+	private TableColumn<CheckoutDetails, String> recordCopy;
 	@FXML
 	private TableColumn<CheckoutDetails, String> recordDue;
 	@FXML
@@ -124,7 +129,7 @@ public class CheckoutBookController extends Stage {
 				Parent root = loader.load();
 				Scene scene = new Scene(root);
 				setScene(scene);
-				setTitle("Main Window");
+				setTitle("Member's Checkout Records");
 				showCheckoutRecord(foundedMember.getCheckoutRecord().getCheckoutEntries());
 				show();	
 			} catch (IOException e1) {
@@ -159,19 +164,45 @@ public class CheckoutBookController extends Stage {
 		String memId = memberId.getText();
 		DataAccessFacade daf = new DataAccessFacade();
 		HashMap<String, LibraryMember> members = daf.readMemberMap();
+		
 		for (Entry<String, LibraryMember> entry : members.entrySet()) {
 			String entryId = entry.getKey();
 			LibraryMember member =entry.getValue();
 			if(entryId.equals(memId)) {
-				System.out.println(member.getFirstName() + " " + member.getLastName() + " Checkout Record Details:");
+					int count = 1;
+					String[][] table = new String[member.getCheckoutRecord().getCheckoutEntries().size() + 1][5];
+					table[0][0] = "ISBN";
+					table[0][1] = "Title";
+					table[0][2] = "Copy Number";
+					table[0][3] = "Checkout Date";
+					table[0][4] = "Due Date";
 				for(CheckoutEntry checkoutEntry : member.getCheckoutRecord().getCheckoutEntries()) {
-					System.out.print(checkoutEntry.getBookCopy().getBook().getIsbn());
-					System.out.print("\t" + checkoutEntry.getBookCopy().getBook().getTitle());
-					System.out.print("\t" + checkoutEntry.getCheckoutDate());
-					System.out.println("\t" + checkoutEntry.getDueDate());	
+					table[count][0] = checkoutEntry.getBookCopy().getBook().getIsbn();
+					table[count][1] = checkoutEntry.getBookCopy().getBook().getTitle();
+					table[count][2] = String.valueOf(checkoutEntry.getBookCopy().getCopyNum());
+					table[count][3] = checkoutEntry.getCheckoutDate().toString();
+					table[count][4] = checkoutEntry.getDueDate().toString();
+					count++;
 				}
+				Map<Integer, Integer> columnLengths = new HashMap<>();
+				Arrays.stream(table).forEach(a -> Stream.iterate(0, (i -> i < a.length), (i -> ++i)).forEach(i -> {
+					if (columnLengths.get(i) == null) {
+						columnLengths.put(i, 0);
+					}
+					if (columnLengths.get(i) < a[i].length()) {
+						columnLengths.put(i, a[i].length());
+					}
+				}));
+				
+				final StringBuilder formatString = new StringBuilder("");
+				String flag = "";
+				columnLengths.entrySet().stream().forEach(e -> formatString.append("| %" + flag + e.getValue() + "s "));
+				formatString.append("|\n");
+				Stream.iterate(0, (i -> i < table.length), (i -> ++i))
+				.forEach(a -> System.out.printf(formatString.toString(), table[a]));
 			}
 		}
+		
 		alertSuccess.setContentText("Member checkout details printed successfully!");
 		alertSuccess.show();
 		alertSuccess.setOnCloseRequest( e -> {
@@ -183,12 +214,13 @@ public class CheckoutBookController extends Stage {
 	public void showCheckoutRecord(List<CheckoutEntry> entries) {
 		recordISBN.setCellValueFactory(new PropertyValueFactory<CheckoutDetails, String>("isbn"));
 		recordTitle.setCellValueFactory(new PropertyValueFactory<CheckoutDetails, String>("title"));
+		recordCopy.setCellValueFactory(new PropertyValueFactory<CheckoutDetails, String>("copyNum"));
 		recordCheckout.setCellValueFactory(new PropertyValueFactory<CheckoutDetails, String>("checkoutDate"));
 		recordDue.setCellValueFactory(new PropertyValueFactory<CheckoutDetails, String>("dueDate"));
 		List<CheckoutDetails> list = new ArrayList<>();
 		for(CheckoutEntry entry : entries) {
 			Book book = entry.getBookCopy().getBook();
-			CheckoutDetails details = new CheckoutDetails(book.getIsbn(), book.getTitle(),
+			CheckoutDetails details = new CheckoutDetails(book.getIsbn(), book.getTitle(),entry.getBookCopy().getCopyNum(),
 					entry.getCheckoutDate(), entry.getDueDate());
 			list.add(details);
 		}
@@ -241,5 +273,12 @@ public class CheckoutBookController extends Stage {
 		} catch(Exception e1) {
 			e1.printStackTrace();
 		}
+	}
+	
+	public String abbreviateString(String input, int maxLength) {
+	    if (input.length() <= maxLength) 
+	        return input;
+	    else 
+	        return input.substring(0, maxLength-2) + "..";
 	}
 }
